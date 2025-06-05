@@ -4,10 +4,14 @@ FROM wordpress:latest
 # Installer git pour cloner le repo
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
+# Cloner le dépôt dans le dossier temporaire
+RUN git clone https://github.com/haneneChtourou/monSite /tmp/monSite
+
 # Supprimer les fichiers WordPress par défaut
 RUN rm -rf /var/www/html/*
-# Cloner le repo directement dans le dossier WordPress
-RUN git clone https://github.com/haneneChtourou/monSite /var/www/html/
+
+# Copier le contenu du dépôt dans le dossier WordPress
+RUN cp -r /tmp/monSite/* /var/www/html
 
 # Donner les bons droits à WordPress
 RUN chown -R www-data:www-data /var/www/html/
